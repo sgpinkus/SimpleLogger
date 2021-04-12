@@ -23,6 +23,7 @@ class Logger extends \Psr\Log\AbstractLogger
     "emergency" => 7
   ];
   private $level;
+  private static $logger;
 
   public function __construct($level = null) {
     $this->level = $level ? $level : (getenv('PHP_LOG_LEVEL') ? getenv('PHP_LOG_LEVEL') : "notice");
@@ -95,6 +96,16 @@ class Logger extends \Psr\Log\AbstractLogger
       }
     }
     return $str;
+  }
+
+  /**
+   * Get singleton logger.
+   */
+  public static function getLogger() {
+    if(!isset(static::$logger)) {
+      static::$logger = new static();
+    }
+    return static::$logger;
   }
 
   /**
