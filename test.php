@@ -10,6 +10,9 @@ function main() {
   $l->debug('debug');
   $l->error('error');
   Logger::getLogger()->warning('warning');
+  $l = new Logger('debug', true);
+  $l->debug('debug');
+  $l->error('error');
 }
 
 main();

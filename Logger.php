@@ -23,30 +23,33 @@ class Logger extends \Psr\Log\AbstractLogger
     "emergency" => 7
   ];
   private $level;
+  private $showTrace;
   private static $logger;
 
-  public function __construct($level = null) {
+  public function __construct($level = null, $showTrace = false) {
     $this->level = $level ? $level : (getenv('PHP_LOG_LEVEL') ? getenv('PHP_LOG_LEVEL') : "notice");
     if(!isset(self::$levelMap[$this->level])) {
       throw new \Psr\Log\InvalidArgumentException();
     }
+    $this->showTrace = $showTrace;
   }
 
   /**
    * \Psr\Log\AbstractLogger calls back this method with the required level.
    */
-  public function log($level, $message, array $context = []) {
+  public function log($level, $message, array $context = [], $showTrace = null) {
     if(!isset(self::$levelMap[$level])) {
       throw new \Psr\Log\InvalidArgumentException();
     }
+    $showTrace = isset($showTrace) ? $showTrace : $this->showTrace;
     $message = self::interpolate($message, $context);
     switch($level) {
       case \Psr\Log\LogLevel::EMERGENCY: case \Psr\Log\LogLevel::ALERT: case \Psr\Log\LogLevel::CRITICAL:
-        error_log($this->format($level, $message, debug_backtrace()));
+        error_log($this->format($level, $message, debug_backtrace(), $showTrace));
         break;
       default:
         if(self::$levelMap[$this->level] <= self::$levelMap[$level])
-          error_log($this->format($level, $message, debug_backtrace()));
+          error_log($this->format($level, $message, debug_backtrace(), $showTrace));
         break;
     }
   }
@@ -117,10 +120,9 @@ class Logger extends \Psr\Log\AbstractLogger
     return ob_get_clean();
   }
 
-	public function __call($level, $args)
-	{
-	  var_dump($level, $args);
-		return $this->log($level, ...$args);
-	}
-
+  public function __call($level, $args)
+  {
+    var_dump($level, $args);
+    return $this->log($level, ...$args);
+  }
 }
