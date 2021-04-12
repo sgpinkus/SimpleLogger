@@ -1,0 +1,18 @@
+{
+  "name": "sgpinkus/simplelogger",
+  "description": "Very simple one class PSR-3 PHP logger that just logs to error_log()",
+  "authors": [
+    {
+      "name": "Sam Pinkus",
+      "email": "sgpinkus@gmail.com"
+    }
+  ],
+  "require": {
+    "psr/log": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "SimpleLogger\\": ""
+    }
+  }
+}
