@@ -2,7 +2,6 @@
 /**
  * PSR compatiable logger that just logs to error_log().
  * PSR-3 defines an common interface for logger objects - Psr\Log\LoggerInterface.
- * There is a package that defines some jhelper classes specifically \Psr\Log\AbstractLogger. You extend and implement log();
  * See http://www.php-fig.org/psr/psr-3/.
  */
 namespace SimpleLogger;

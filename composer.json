@@ -1,6 +1,7 @@
 {
   "name": "sgpinkus/simplelogger",
   "description": "Very simple one class PSR-3 PHP logger that just logs to error_log()",
+  "license": "MIT",
   "authors": [
     {
       "name": "Sam Pinkus",
